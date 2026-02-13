@@ -13,6 +13,7 @@
 </head>
 <body>
 <div>
+    <!-- Form to receive the data  -->
     <form method="post">
         <label asp-for="Category">Category: </label>
         <input asp-for="Category" required/>
@@ -21,12 +22,12 @@
         <input asp-for="Title" required/>
         <br/>
         <label asp-for="Year">Year:</label>
-        <input asp-for="Year" min="1888" required/>
+        <input asp-for="Year" min="1888" required/> <!-- 1888 was the first movie so it cant be before that   -->
         <br/>
         <label asp-for="Director">Director:</label>
         <input asp-for="Director" required/>
         <br/>
-        <label asp-for="Rating">Rating</label>
+        <label asp-for="Rating">Rating</label> <!-- Drop down for Rating  -->
         <select asp-for="Rating" required>
             <option value="G">G</option>
             <option value="PG">PG</option>
@@ -34,7 +35,7 @@
             <option value="R">R</option>
         </select>
         <br/>
-        <label asp-for="Edited">Edited</label>
+        <label asp-for="Edited">Edited</label> <!--  Drop down for Edited -->
         <select asp-for="Edited">
             <option></option>
             <option value="true">Yes</option>
@@ -47,6 +48,7 @@
         <label asp-for="Notes">Notes:</label>
         <input asp-for="Notes"/>
         <br/>
+        <!-- Submit it all to the server -->
         <button type="submit">Submit Movie</button>
     </form>
 </div>

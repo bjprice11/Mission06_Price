@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//Tells server to use the MovieDatabase whenever asked
 builder.Services.AddDbContext<MovieDatabaseContext>(options =>
 {
+    //Use the SQLite database, connecting through the string Movie Connection
     options.UseSqlite(builder.Configuration["ConnectionStrings:MovieConnection"]);
 });
 

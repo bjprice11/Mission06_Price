@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+//Final iteration or database
 #nullable disable
 
 namespace Mission06_Price.Migrations
