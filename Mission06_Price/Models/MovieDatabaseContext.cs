@@ -15,6 +15,14 @@ public class MovieDatabaseContext : DbContext //inherites properities of DBConte
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Tell the database that these fields are allowed to be empty (null)
+        // This prevents the "Data is Null" crash when reading the teacher's file.
+        modelBuilder.Entity<Movies>().Property(m => m.Director).IsRequired(false);
+        modelBuilder.Entity<Movies>().Property(m => m.Rating).IsRequired(false);
+        modelBuilder.Entity<Movies>().Property(m => m.Edited).IsRequired(false);
+        modelBuilder.Entity<Movies>().Property(m => m.LentTo).IsRequired(false);
+        modelBuilder.Entity<Movies>().Property(m => m.Notes).IsRequired(false);
+    
         //Commented out because the linked database already has it, but it we were making a new one we would need it
         //modelBuilder.Entity<Categories>().HasData(
             //new Categories { CategoryId = 1, CategoryName = "Miscellaneous" },

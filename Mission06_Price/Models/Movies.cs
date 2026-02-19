@@ -18,7 +18,7 @@ public class Movies
     public string? Title { get; set; }
     [Range(0, int.MaxValue, ErrorMessage = "Please enter a valid year.")] //makes the year have to be a valid number
     public int? Year { get; set; }
-    //[Required(ErrorMessage = "Please enter a Director")]
+    [Required(ErrorMessage = "Please enter a Director")]
     public string? Director { get; set; }
     [Required]
     public string? Rating { get; set; }
