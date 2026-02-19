@@ -4,10 +4,11 @@
     Layout = "_Layout";
 }
 <!-- uses the model from Movoes-->
-@model Mission06_Price.Models.Movie
+@model Mission06_Price.Models.Movies
 
 <!--Uses the name of the entered movie-->
 <h2>Thank You for adding @Model.Title</h2>
 <!--Go back to enter a new movie-->
 <a asp-area="" asp-controller="Home" asp-action="MovieForm">Enter a new Movie</a>
+<a asp-area="" asp-controller="Home" asp-action="MovieList">See Entire List</a>
 

@@ -16,21 +16,80 @@ namespace Mission06_Price.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
 
-            modelBuilder.Entity("Mission06_Price.Models.Movie", b =>
+            modelBuilder.Entity("Mission06_Price.Models.Categories", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Miscellaneous"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Television"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 7,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 8,
+                            CategoryName = "VHS"
+                        });
+                });
+
+            modelBuilder.Entity("Mission06_Price.Models.Movies", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CopiedToPlex")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Edited")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LentTo")
@@ -53,7 +112,20 @@ namespace Mission06_Price.Migrations
 
                     b.HasKey("MovieId");
 
-                    b.ToTable("MovieDatabase");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Mission06_Price.Models.Movies", b =>
+                {
+                    b.HasOne("Mission06_Price.Models.Categories", "Categories")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

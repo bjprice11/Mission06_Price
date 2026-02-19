@@ -1,5 +1,6 @@
 
-@model Mission06_Price.Models.Movie
+@using Mission06_Price.Models
+@model Mission06_Price.Models.Movies
 
 @{
     Layout = Layout;
@@ -14,42 +15,68 @@
 <body>
 <div>
     <!-- Form to receive the data  -->
-    <form method="post">
-        <label asp-for="Category">Category: </label>
-        <input asp-for="Category" required/>
+    <form method="post" novalidate>
+        @if (Model != null && Model.MovieId != 0)
+        {
+            <input type="hidden" asp-for="MovieId"/>
+        }
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" required>
+            <option value="" disabled selected>Pick a Category</option>
+            @foreach (Categories c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.CategoryName</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
         <br/>
         <label asp-for="Title">Title:</label>
         <input asp-for="Title" required/>
+        <span asp-validation-for="Title" class="text-danger"></span>
         <br/>
         <label asp-for="Year">Year:</label>
         <input asp-for="Year" min="1888" required/> <!-- 1888 was the first movie so it cant be before that   -->
+        <span asp-validation-for="Year" class="text-danger"></span>
         <br/>
         <label asp-for="Director">Director:</label>
         <input asp-for="Director" required/>
+        <span asp-validation-for="Director" class="text-danger"></span>
         <br/>
         <label asp-for="Rating">Rating</label> <!-- Drop down for Rating  -->
         <select asp-for="Rating" required>
+            <option value="" disabled selected>Select an Option</option>
             <option value="G">G</option>
             <option value="PG">PG</option>
             <option value="PG-13">PG-13</option>
             <option value="R">R</option>
         </select>
+        <span asp-validation-for="Rating" class="text-danger"></span>
         <br/>
         <label asp-for="Edited">Edited</label> <!--  Drop down for Edited -->
-        <select asp-for="Edited">
-            <option></option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
+        <select asp-for="Edited" required>
+            <option value="" disabled selected>Select an Option</option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
         </select>
+        <span asp-validation-for="Edited" class="text-danger"></span>
         <br/>
         <label asp-for="LentTo">Lent To:</label>
         <input asp-for="LentTo"/>
+        <br/>
+        <label asp-for="CopiedToPlex">CopiedToPlex</label>
+        <select asp-for="CopiedToPlex" required>
+            <option value="" disabled selected>Select an Option</option>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <span asp-validation-for="CopiedToPlex" class="text-danger"></span>
         <br/>
         <label asp-for="Notes">Notes:</label>
         <input asp-for="Notes"/>
         <br/>
         <!-- Submit it all to the server -->
         <button type="submit">Submit Movie</button>
+        
     </form>
 </div>
 </body>

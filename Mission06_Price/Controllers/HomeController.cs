@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mission06_Price.Models;
 
 
@@ -29,16 +30,89 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult MovieForm()
     {
+        //generates the dropdown with the categories
+        ViewBag.Categories = _context.Categories
+            .OrderBy(c => c.CategoryName)
+            .ToList();
         return View();
     }
     //Recieves the responses from the form and sends them to the database
     [HttpPost]
-    public IActionResult MovieForm(Movie response)
+    public IActionResult MovieForm(Movies response)
     {
-        _context.MovieDatabase.Add(response);
-        _context.SaveChanges();
+        //Checks to make sure all the values are valid
+        if (ModelState.IsValid){
+            _context.Movies.Add(response);
+            _context.SaveChanges();
+            return View("Confirmation", response);
+        }
+        else // Otherwise reloads the page with the categories dropdown
+        {
+            ViewBag.Categories = _context.Categories
+                .OrderBy(c => c.CategoryName)
+                .ToList();
+            return View(response);
+        }
         
-        return View("Confirmation", response);
     }
- 
+
+    public IActionResult MovieList()
+    {
+        //Makes a movies list to pass into the MovieList
+        var movies = _context.Movies
+            .Include(x => x.Categories)
+            .ToList();
+        return View(movies);
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        //Selects the movie with the mathcing ID that was passed in
+        var MovieToEdit = _context.Movies
+            .Single(x => x.MovieId == id);
+        //Recreates the categories drop down
+        ViewBag.Categories = _context.Categories
+            .OrderBy(c => c.CategoryName)
+            .ToList();
+        return View("MovieForm", MovieToEdit);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(Movies UpdatedMovie)
+    {
+        //updates the Movie with the same id in the database
+        if (ModelState.IsValid)
+        {
+            _context.Movies.Update(UpdatedMovie);
+            _context.SaveChanges();
+            return RedirectToAction("MovieList");
+        }
+        else
+        {
+            ViewBag.Categories = _context.Categories
+                .OrderBy(c => c.CategoryName)
+                .ToList();
+            return View("MovieForm", UpdatedMovie);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        //Gets movie to delete according to id
+        var MovieToDelete = _context.Movies
+            .Single(x => x.MovieId == id);
+        return View(MovieToDelete);
+    }
+
+    [HttpPost]
+    public IActionResult Delete(Movies movie)
+    {
+        //Removes the entry with that id from the database
+        _context.Movies.Remove(movie);
+        _context.SaveChanges();
+        return RedirectToAction("MovieList");
+    }
+
 }

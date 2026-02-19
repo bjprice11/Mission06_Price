@@ -1,0 +1,15 @@
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+@using Microsoft.EntityFrameworkCore
+@model Mission06_Price.Models.Movies
+<!--Uses the Movies Model to display the title and confirms their deletion-->
+<h2>Confirm Deletion</h2>
+<h3>@Model.Title</h3>
+<form method="post">
+    <input type="hidden" asp-for="MovieId"/>
+    <button type="submit">Delete</button>
+    <a class="btn btn-danger" asp-controller="Home" asp-action="MovieList">Cancel</a>
+</form>
